@@ -3,41 +3,41 @@
  *
  */
 
-+function ($) {
-    'use strict';
+jQuery.extend({
+    highlight: function (node, patterns, classes, nodeName) {
+        if (node.nodeType === 3) {
+            for (var i = 0 ; i < patterns.length; i++) {
+                var match = node.data.match(patterns[i]);
+                if (match) {
+                    var highlight = document.createElement(nodeName || 'span');
 
-    $.extend({
-        highlight: function (node, patterns, classes, nodeName) {
-            if (node.nodeType === 3) {
-                for (var i = 0 ; i < patterns.length; i++) {
-                    var match = node.data.match(patterns[i]);
-                    if (match) {
-                        var highlight = document.createElement(nodeName || 'span');
+                    highlight.className = classes[i];
 
-                        highlight.className = classes[i];
+                    var wordNode = node.splitText(match.index);
 
-                        var wordNode = node.splitText(match.index);
+                    wordNode.splitText(match[0].length);
 
-                        wordNode.splitText(match[0].length);
+                    var wordClone = wordNode.cloneNode(true);
 
-                        var wordClone = wordNode.cloneNode(true);
-
-                        highlight.appendChild(wordClone);
-                        wordNode.parentNode.replaceChild(highlight, wordNode);
-                    }
-                }
-
-                return 1; //skip added node in parent
-            } else if ((node.nodeType === 1 && node.childNodes) && // only element nodes that have children
-                    !/(script|style)/i.test(node.tagName) && // ignore script and style nodes
-                    !(node.tagName === nodeName.toUpperCase() && $.inArray(className, classes) > -1)) { // skip if already highlighted
-                for (var j = 0; j < node.childNodes.length; j++) {
-                    j += $.highlight(node.childNodes[j], patterns, classes, nodeName);
+                    highlight.appendChild(wordClone);
+                    wordNode.parentNode.replaceChild(highlight, wordNode);
                 }
             }
-            return 0;
+
+            return 1; //skip added node in parent
+        } else if ((node.nodeType === 1 && node.childNodes) && // only element nodes that have children
+                !/(script|style)/i.test(node.tagName) && // ignore script and style nodes
+                !(node.tagName === nodeName.toUpperCase() && $.inArray(className, classes) > -1)) { // skip if already highlighted
+            for (var j = 0; j < node.childNodes.length; j++) {
+                j += $.highlight(node.childNodes[j], patterns, classes, nodeName);
+            }
         }
-    });
+        return 0;
+    }
+});
+
++function ($) {
+    'use strict';
 
     $.fn.highlight = function (words, options) {
         var settings = $.extend({
@@ -53,29 +53,23 @@
             return word != '';
         });
 
-        words = $.map(words, function (word, i) {
-            return word.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
-        });
-
         if (words.length == 0) return this;
 
-        var wordsLen = words.length;
-        var patterns = new Array();
         var classes = new Array();
-        var flag = settings.caseSensitive ? "" : "i";
+        var flag = settings.caseSensitive ? '' : 'i';
 
-        for (var i = 0; i < wordsLen; i++) {
-            var pattern = "(" + words[i] + ")";
+        words = $.map(words, function (word, i) {
+            var pattern = '(' + word.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&") + ')';
 
-            if (settings.wordsOnly) pattern = "\\b" + pattern + "\\b";
+            if (settings.wordsOnly) pattern = '\\b' + pattern + '\\b';
 
-            patterns[i] = new RegExp(pattern, flag);
             classes[i] = i < settings.classes.length ? settings.classes[i] : settings.classes[parseInt(Math.random() * settings.classes.length)];
 
-        }
+            return new RegExp(pattern, flag);
+        });
 
         return this.each(function (i, item) {
-            jQuery.highlight(this, patterns, classes, settings.element);
+            jQuery.highlight(this, words, classes, settings.element);
         });
     }
 }(jQuery);
