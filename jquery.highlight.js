@@ -27,7 +27,7 @@ jQuery.extend({
             return 1; //skip added node in parent
         } else if ((node.nodeType === 1 && node.childNodes) && // only element nodes that have children
                 !/(script|style)/i.test(node.tagName) && // ignore script and style nodes
-                !(node.tagName === nodeName.toUpperCase() && $.inArray(className, classes) > -1)) { // skip if already highlighted
+                !(node.tagName === nodeName.toUpperCase() && $.inArray(node.className, classes) > -1)) { // skip if already highlighted
             for (var j = 0; j < node.childNodes.length; j++) {
                 j += $.highlight(node.childNodes[j], patterns, classes, nodeName);
             }
