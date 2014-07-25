@@ -39,12 +39,17 @@ jQuery.extend({
 +function ($) {
     'use strict';
 
+    var cjReg = /[\u3100-\u312f\u3040-\u309F\u30A0-\u30FF\u31F0-\u31FF\u3300-\u337f\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff\uff65-\uff9f]/gi;
+
+    function isCJ(str) {
+        return cjReg.exec(str);
+    }
+
     $.fn.highlight = function (words, options) {
         var settings = $.extend({
             classes: ['highlight-1', 'highlight-2', 'highlight-3', 'highlight-4', 'highlight-5', 'highlight-6', 'highlight-7', 'highlight-8'],
             element: 'span',
-            caseSensitive: false,
-            wordsOnly: false
+            caseSensitive: false
         }, options);
 
         if (words.constructor === String) words = [words];
@@ -61,7 +66,7 @@ jQuery.extend({
         words = $.map(words, function (word, i) {
             var pattern = '(' + word.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&") + ')';
 
-            if (settings.wordsOnly) pattern = '\\b' + pattern + '\\b';
+            if (!isCJ(word)) pattern = '\\b' + pattern + '\\b';
 
             classes[i] = i < settings.classes.length ? settings.classes[i] : settings.classes[parseInt(Math.random() * settings.classes.length)];
 
