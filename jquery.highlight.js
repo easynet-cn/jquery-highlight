@@ -39,7 +39,7 @@ jQuery.extend({
 +function ($) {
     'use strict';
 
-    var cjReg = /[\u3100-\u312f\u3040-\u309F\u30A0-\u30FF\u31F0-\u31FF\u3300-\u337f\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff\uff65-\uff9f]/gi;
+    var cjReg = /[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uff9f\u4e00-\u9faf\u3400-\u4dbf]/i;
 
     function isCJ(str) {
         return cjReg.exec(str);
@@ -66,7 +66,7 @@ jQuery.extend({
         words = $.map(words, function (word, i) {
             var pattern = '(' + word.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&") + ')';
 
-            if (!isCJ(word)) pattern = '\\b' + pattern + '\\b';
+            if (null == isCJ(word)) pattern = '\\b' + pattern + '\\b';
 
             classes[i] = i < settings.classes.length ? settings.classes[i] : settings.classes[parseInt(Math.random() * settings.classes.length)];
 
