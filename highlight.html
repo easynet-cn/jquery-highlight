@@ -2,53 +2,58 @@
 
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="utf-8" />
-    <title>jquery highlight test</title>
-    <style type="text/css">
-        .highlight-1 {
-            background-color: #4785D2;
-            color: white;
-        }
+<meta charset="utf-8" />
+<title>jquery highlight test</title>
+<style type="text/css">
+.highlight-1 {
+	background-color: #4785D2;
+	color: white;
+}
 
-        .highlight-2 {
-            background-color: #BA5DC7;
-            color: white;
-        }
+.highlight-2 {
+	background-color: #BA5DC7;
+	color: white;
+}
 
-        .highlight-3 {
-            background-color: #74AC4B;
-            color: white;
-        }
+.highlight-3 {
+	background-color: #74AC4B;
+	color: white;
+}
 
-        .highlight-4 {
-            background-color: #9E2D01;
-        }
+.highlight-4 {
+	background-color: #9E2D01;
+}
 
-        .highlight-5 {
-            background-color: #88E1E9;
-        }
+.highlight-5 {
+	background-color: #88E1E9;
+}
 
-        .highlight-6 {
-            background-color: #F1DD2E;
-        }
+.highlight-6 {
+	background-color: #F1DD2E;
+}
 
-        .highlight-7 {
-            background-color: #ED38A9;
-        }
+.highlight-7 {
+	background-color: #ED38A9;
+}
 
-        .highlight-8 {
-            background-color: #CDB189;
-        }
-    </style>
+.highlight-8 {
+	background-color: #CDB189;
+}
+</style>
 </head>
 <body>
-    <div id="txt1">METHOD FOR GAME BOARD SUPPLY AND DISCHARGE TO/FROM ROUTER PROCESSING MACHINE FOR MANUFACTURING GAME MACHINE</div>
-    <div id="txt2">电的车辆供能系统，电的车辆电池，电的车辆电池充电装置，电池供给装置、以及电的车辆电池管理系统</div>
-    <script type="text/javascript" src="jquery-1.11.1.min.js"></script>
-    <script type="text/javascript" src="jquery.highlight.js"></script>
-    <script type="text/javascript">
-        $('#txt1').highlight(["DISCHARGE", "MACHINE", "GAME", "ROUTER", "BOARD", "METHOD", "PROCESSING", "SUPPLY"]);
-        $('#txt2').highlight(["充电", "电池", "管理"]);
-    </script>
+	<div id="txt1">METHOD FOR GAME BOARD SUPPLY AND DISCHARGE TO/FROM
+		ROUTER PROCESSING MACHINE FOR MANUFACTURING GAME MACHINE</div>
+	<div id="txt2">电的车辆供能系统，电的车辆电池，电的车辆电池充电装置，电池供给装置、以及电的车辆电池管理系统</div>
+	<div id="txt3">system systems</div>
+	<script type="text/javascript" src="jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="jquery.highlight.js"></script>
+	<script type="text/javascript">
+		$('#txt1').highlight(
+				[ "DISCHARGE", "MACHINE", "GAME", "ROUTER", "BOARD", "METHOD",
+						"PROCESSING", "SUPPLY" ]);
+		$('#txt2').highlight([ "充电", "电池", "管理" ]);
+		$('#txt3').highlight([ "system*" ]);
+	</script>
 </body>
 </html>
