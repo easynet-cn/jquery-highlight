@@ -72,29 +72,39 @@ jQuery.extend({
 		var classes = new Array();
 		var flag = settings.caseSensitive ? '' : 'i';
 
-		words = $.map(words, function(word, i) {
-			var pattern = '';
+		words = $
+				.map(
+						words,
+						function(word, i) {
+							var pattern = '';
 
-			if (word[0] == '"' && word[word.length - 1] == '"') {
-				pattern = '('
-						+ word.substring(1, word.length - 1).replace(
-								/[-[\]{}()+?.,\\^$|#\s]/g, ' ').replace(/\s/g,
-								"[^\r\n]").replace(/[*]/g, "[\S]{0,}") + ')';
-			} else {
-				pattern = '('
-						+ word.replace(/[-[\]{}()+?.,\\^$|#\s]/g, ' ').replace(
-								/[*]/g, "[\S]{0,}") + ')';
+							if (word[0] == '"' && word[word.length - 1] == '"') {
+								pattern = '('
+										+ word
+												.substring(1, word.length - 1)
+												.replace(
+														/[-[\]{}()+?.,\\^$|#\s]/g,
+														' ').replace(/\s/g,
+														"[^\\r\\n]").replace(
+														/[*]/g, "[\\S]{0,}")
+										+ ')';
+							} else {
+								pattern = '('
+										+ word.replace(
+												/[-[\]{}()+?.,\\^$|#\s]/g, ' ')
+												.replace(/[*]/g, "[\\S]{0,}")
+										+ ')';
 
-			}
-			if (null == isCJ(word))
-				pattern = '\\b' + pattern + '\\b';
+							}
+							if (null == isCJ(word))
+								pattern = '\\b' + pattern + '\\b';
 
-			classes[i] = i < settings.classes.length ? settings.classes[i]
-					: settings.classes[parseInt(Math.random()
-							* settings.classes.length)];
+							classes[i] = i < settings.classes.length ? settings.classes[i]
+									: settings.classes[parseInt(Math.random()
+											* settings.classes.length)];
 
-			return new RegExp(pattern, flag);
-		});
+							return new RegExp(pattern, flag);
+						});
 
 		return this.each(function(i, item) {
 			jQuery.highlight(this, words, classes, settings.element);
