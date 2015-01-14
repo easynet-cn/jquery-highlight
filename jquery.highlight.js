@@ -73,10 +73,19 @@ jQuery.extend({
 		var flag = settings.caseSensitive ? '' : 'i';
 
 		words = $.map(words, function(word, i) {
-			var pattern = '('
-					+ word.replace(/[-[\]{}()+?.,\\^$|#\s]/g, "\\$&").replace(
-							/[*]/g, "[\S]{0,}") + ')';
+			var pattern = '';
 
+			if (word[0] == '"' && word[word.length - 1] == '"') {
+				pattern = '('
+						+ word.substring(1, word.length - 1).replace(
+								/[-[\]{}()+?.,\\^$|#\s]/g, ' ').replace(/\s/g,
+								"[^\r\n]").replace(/[*]/g, "[\S]{0,}") + ')';
+			} else {
+				pattern = '('
+						+ word.replace(/[-[\]{}()+?.,\\^$|#\s]/g, ' ').replace(
+								/[*]/g, "[\S]{0,}") + ')';
+
+			}
 			if (null == isCJ(word))
 				pattern = '\\b' + pattern + '\\b';
 
