@@ -50,6 +50,18 @@ jQuery.extend({
 		return cjReg.exec(str);
 	}
 
+	function toCDB(str) {
+		var tmp = "";
+		for (var i = 0; i < str.length; i++) {
+			if (str.charCodeAt(i) > 65248 && str.charCodeAt(i) < 65375) {
+				tmp += String.fromCharCode(str.charCodeAt(i) - 65248);
+			} else {
+				tmp += String.fromCharCode(str.charCodeAt(i));
+			}
+		}
+		return tmp
+	}
+
 	$.fn.highlight = function(words, options) {
 		var settings = $.extend({
 			classes : [ 'highlight-1', 'highlight-2', 'highlight-3',
@@ -77,23 +89,27 @@ jQuery.extend({
 						words,
 						function(word, i) {
 							var pattern = '';
+							word = toCDB(word);
 
 							if (word[0] == '"' && word[word.length - 1] == '"') {
 								pattern = '('
 										+ word
 												.substring(1, word.length - 1)
 												.replace(
-														/[-[\]{}()+?.,\\^$|#\s]/g,
+														/[\—|\~|\`|\!|\@|\#|\$|\%|\^|\&|\(|\)|\-|\_|\+|\=|\||\\|\[|\]|\{|\}|\;|\:|\"|\'|\,|\<|\.|\>|\/]/g,
 														' ').replace(/\s/g,
 														"[^\\r\\n]").replace(
 														/[*]/g, "[\\S]{0,}")
+												.replace(/[?]/g, "[\\S]{0,}")
 										+ ')';
 							} else {
 								pattern = '('
-										+ word.replace(
-												/[-[\]{}()+?.,\\^$|#\s]/g, ' ')
-												.replace(/[*]/g, "[\\S]{0,}")
-										+ ')';
+										+ word
+												.replace(
+														/[\—\~|\`|\!|\@|\#|\$|\%|\^|\&|\(|\)|\-|\_|\+|\=|\||\\|\[|\]|\{|\}|\;|\:|\"|\'|\,|\<|\.|\>|\/]/g,
+														' ').replace(/[*]/g,
+														"[\\S]{0,}").replace(
+														/[?]/g, "[\\S]") + ')';
 
 							}
 							if (null == isCJ(word))
