@@ -39,6 +39,10 @@
 .highlight-8 {
 	background-color: #CDB189;
 }
+
+input {
+	width: 80%;
+}
 </style>
 </head>
 <body>
@@ -60,6 +64,15 @@
 		SIGNAL WAVEFORMS IN A CDMA CELLULAR TELEPHONE SYSTEM</div>
 	<h4 id="txt7-words" class="words">"3—D"</h4>
 	<div id="txt7" class="highlight">3-D cursor positioning device</div>
+	<div>
+		Words:<input id="txt-words" type="text"></input>
+		<button id="btn-highlight">高亮</button>
+	</div>
+	<div>
+		Text:<input id="txt" type="text"></input>
+	</div>
+	Highlight:
+	<div id="txt-highlight" type="text"></div>
 	<script type="text/javascript" src="jquery-1.11.1.min.js"></script>
 	<script type="text/javascript" src="jquery.highlight.js"></script>
 	<script type="text/javascript">
@@ -67,6 +80,11 @@
 			var id = $(item).prop('id');
 			var words = $('#' + id + '-words').text().split(',');
 			$(item).highlight(words);
+		});
+		$('#btn-highlight').click(function() {
+			$('#txt-highlight').html($('#txt').val());
+			$('#txt-highlight').highlight($('#txt-words').val().split(','));
+
 		});
 	</script>
 </body>
