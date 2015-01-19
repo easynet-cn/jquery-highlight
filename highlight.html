@@ -42,27 +42,32 @@
 </style>
 </head>
 <body>
-	<div id="txt1">METHOD FOR GAME BOARD SUPPLY AND DISCHARGE TO/FROM
-		ROUTER PROCESSING MACHINE FOR MANUFACTURING GAME MACHINE</div>
-	<div id="txt2">电的车辆供能系统，电的车辆电池，电的车辆电池充电装置，电池供给装置、以及电的车辆电池管理系统</div>
-	<div id="txt3">system systems</div>
-	<div id="txt4">growth absorbent absorbing</div>
-	<div id="txt5">3-D cursor positioning device</div>
-	<div id="txt6">SYSTEM AND METHOD FOR GENERATING SIGNAL WAVEFORMS
-		IN A CDMA CELLULAR TELEPHONE SYSTEM</div>
-	<div id="txt7">3-D cursor positioning device</div>
+	<h4 id="txt1-words" class="words">DISCHARGE,MACHINE, GAME, ROUTER,
+		BOARD,METHOD,PROCESSING,SUPPLY</h4>
+	<div id="txt1" class="highlight">METHOD FOR GAME BOARD SUPPLY AND
+		DISCHARGE TO/FROM ROUTER PROCESSING MACHINE FOR MANUFACTURING GAME
+		MACHINE</div>
+	<h4 id="txt2-words" class="words">充电,电池,管理</h4>
+	<div id="txt2" class="highlight">电的车辆供能系统，电的车辆电池，电的车辆电池充电装置，电池供给装置、以及电的车辆电池管理系统</div>
+	<h4 id="txt3-words" class="words">system*</h4>
+	<div id="txt3" class="highlight">system systems</div>
+	<h4 id="txt4-words" class="words">grow*,absorb*</h4>
+	<div id="txt4" class="highlight">growth absorbent absorbing</div>
+	<h4 id="txt5-words" class="words">"3 d"</h4>
+	<div id="txt5" class="highlight">3-D cursor positioning device</div>
+	<h4 id="txt6-words" class="words">syst?"</h4>
+	<div id="txt6" class="highlight">SYSTEM AND METHOD FOR GENERATING
+		SIGNAL WAVEFORMS IN A CDMA CELLULAR TELEPHONE SYSTEM</div>
+	<h4 id="txt7-words" class="words">"3—D"</h4>
+	<div id="txt7" class="highlight">3-D cursor positioning device</div>
 	<script type="text/javascript" src="jquery-1.11.1.min.js"></script>
 	<script type="text/javascript" src="jquery.highlight.js"></script>
 	<script type="text/javascript">
-		$('#txt1').highlight(
-				[ "DISCHARGE", "MACHINE", "GAME", "ROUTER", "BOARD", "METHOD",
-						"PROCESSING", "SUPPLY" ]);
-		$('#txt2').highlight([ "充电", "电池", "管理" ]);
-		$('#txt3').highlight([ "system*" ]);
-		$('#txt4').highlight([ "grow*", "absorb*" ]);
-		$('#txt5').highlight([ "\"3 d\"" ]);
-		$('#txt6').highlight([ "syst?m" ]);
-		$('#txt7').highlight([ "\"3—D\"" ]);
+		$('.highlight').each(function(i, item) {
+			var id = $(item).prop('id');
+			var words = $('#' + id + '-words').text().split(',');
+			$(item).highlight(words);
+		});
 	</script>
 </body>
 </html>

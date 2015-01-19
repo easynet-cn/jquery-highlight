@@ -72,7 +72,7 @@ jQuery.extend({
 									'highlight-7', 'highlight-8' ],
 							element : 'span',
 							caseSensitive : false,
-							filterRegex : /[\—|\~|\`|\!|\@|\#|\$|\%|\^|\&|\(|\)|\-|\_|\+|\=|\||\\|\[|\]|\{|\}|\;|\:|\"|\'|\,|\<|\.|\>|\/\s]/g
+							filterRegex : /[\·\…\—\~\`\!\@\#\$\%\^\&\(\)\-\_\+\=\|\\\[\]\{\}\;\:\"\'\,\<\.\>\/\s]/g
 						}, options);
 
 		if (words.constructor === String)
