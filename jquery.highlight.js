@@ -9,13 +9,31 @@ jQuery.extend({
 			for (var i = 0; i < patterns.length; i++) {
 				var match = node.data.match(patterns[i]);
 				if (match) {
+					var start = match.index;
+					var length = match[0].length;
+					var end = start + length;
 					var highlight = document.createElement(nodeName || 'span');
+
+					for (var j = i + 1; j < patterns.length; j++) {
+						var m = node.data.match(patterns[j]);
+
+						if (m) {
+							var s = m.index;
+							var l = m[0].length;
+							var e = s + l;
+
+							if (s <= end || e <= start) {
+								start = Math.min(start, s);
+								length = Math.max(end, e) - start;
+							}
+						}
+					}
 
 					highlight.className = classes[i];
 
-					var wordNode = node.splitText(match.index);
+					var wordNode = node.splitText(start);
 
-					wordNode.splitText(match[0].length);
+					wordNode.splitText(length);
 
 					var wordClone = wordNode.cloneNode(true);
 
