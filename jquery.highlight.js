@@ -22,7 +22,8 @@ jQuery.extend({
 							var l = m[0].length;
 							var e = s + l;
 
-							if (s <= end || e <= start) {
+							if ((s < end && s >= start)
+									|| (e > start && e <= end)) {
 								start = Math.min(start, s);
 								length = Math.max(end, e) - start;
 							}
