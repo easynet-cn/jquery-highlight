@@ -8,6 +8,7 @@ jQuery.extend({
 		if (node.nodeType === 3) {
 			for (var i = 0; i < patterns.length; i++) {
 				var match = node.data.match(patterns[i]);
+
 				if (match) {
 					var start = match.index;
 					var length = match[0].length;
@@ -83,17 +84,13 @@ jQuery.extend({
 	}
 
 	$.fn.highlight = function(words, options) {
-		var settings = $
-				.extend(
-						{
-							classes : [ 'highlight-1', 'highlight-2',
-									'highlight-3', 'highlight-4',
-									'highlight-5', 'highlight-6',
-									'highlight-7', 'highlight-8' ],
-							element : 'span',
-							caseSensitive : false,
-							filterRegex : /[\·\…\—\~\`\!\@\#\$\%\^\&\(\)\-\_\+\=\|\\\[\]\{\}\;\:\"\'\,\<\.\>\/\s]/g
-						}, options);
+		var settings = $.extend({
+			classes : [ 'highlight-1', 'highlight-2', 'highlight-3',
+					'highlight-4', 'highlight-5', 'highlight-6', 'highlight-7',
+					'highlight-8' ],
+			element : 'span',
+			caseSensitive : false
+		}, options);
 
 		if (words.constructor === String)
 			words = [ words ];
@@ -107,27 +104,56 @@ jQuery.extend({
 
 		var classes = new Array();
 		var flag = settings.caseSensitive ? '' : 'i';
+		var filterRegex = /[\·\…\—\~\`\!\@\#\$\%\^\&\(\)\-\_\+\=\|\\\[\]\{\}\;\:\"\'\,\<\.\>\/\s]/g;
 
-		words = $.map(words, function(word, i) {
-			var pattern = '';
-			word = toCDB(word);
+		words = $
+				.map(
+						words,
+						function(word, i) {
+							var pattern = '';
+							word = toCDB(word);
+							var iscj = isCJ(word);
 
-			if (word[0] == '"' && word[word.length - 1] == '"')
-				word = word.substring(1, word.length - 1);
+							if (word[0] == '"' && word[word.length - 1] == '"')
+								word = word.substring(1, word.length - 1);
 
-			pattern = '('
-					+ word.replace(settings.filterRegex, "[^\\r\\n]").replace(
-							/[*]/g, "[\\S]{0,}").replace(/[?]/g, "[\\S]{0,}")
-					+ ')';
-			if (null == isCJ(word))
-				pattern = '\\b' + pattern + '\\b';
+							pattern += '(';
 
-			classes[i] = i < settings.classes.length ? settings.classes[i]
-					: settings.classes[parseInt(Math.random()
-							* settings.classes.length)];
+							if (null != iscj) {
+								var replace = '[\\·\\…\\—\\~\\`\\!\\@\\#\\$\\%\\^\\&\\(\\)\\-\\_\\+\\=\\|\\\\\[\\]\\{\\}\\;\\:\\"\\\'\\,\\<\\.\\>\\/\\s]{0,1}';
 
-			return new RegExp(pattern, flag);
-		});
+								for (var j = 0; j < word.length; j++) {
+									var c = word[j].toString();
+									var m = filterRegex.exec(c);
+
+									if (null != m) {
+										pattern += replace;
+									} else if (j < word.length - 1) {
+										pattern = pattern + c + replace;
+									} else {
+										pattern += c;
+									}
+
+								}
+							} else {
+								pattern = pattern
+										+ word.replace(filterRegex,
+												"[^\\r\\na-z]{0,1}").replace(
+												/[*]/g, "[\\S]{0,}").replace(
+												/[?]/g, "[\\S]{0,}");
+							}
+
+							pattern += ')';
+
+							if (null == iscj)
+								pattern = '\\b' + pattern + '\\b';
+
+							classes[i] = i < settings.classes.length ? settings.classes[i]
+									: settings.classes[parseInt(Math.random()
+											* settings.classes.length)];
+
+							return new RegExp(pattern, flag);
+						});
 
 		return this.each(function(i, item) {
 			jQuery.highlight(this, words, classes, settings.element);
