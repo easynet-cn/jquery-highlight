@@ -120,7 +120,7 @@ jQuery.extend({
 							pattern += '(';
 
 							if (null != iscj) {
-								var replace = '[\\·\\…\\—\\~\\`\\!\\@\\#\\$\\%\\^\\&\\(\\)\\-\\_\\+\\=\\|\\\\\[\\]\\{\\}\\;\\:\\"\\\'\\,\\<\\.\\>\\/\\s]{0,1}';
+								var replace = '[\\·\\…\\—\\~\\`\\!\\@\\#\\$\\%\\^\\&\\(\\)\\-\\_\\+\\=\\|\\\\\[\\]\\{\\}\\;\\:\\"\\\'\\,\\<\\.\\>\\/\\s]{0,}';
 
 								for (var j = 0; j < word.length; j++) {
 									var c = word[j].toString();
@@ -138,7 +138,7 @@ jQuery.extend({
 							} else {
 								pattern = pattern
 										+ word.replace(filterRegex,
-												"[^\\r\\na-z]{0,1}").replace(
+												"[^\\r\\na-z]{0,}").replace(
 												/[*]/g, "[\\S]{0,}").replace(
 												/[?]/g, "[\\S]{0,}");
 							}
