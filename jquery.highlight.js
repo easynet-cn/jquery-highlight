@@ -64,7 +64,6 @@ jQuery.extend({
 
 +function($) {
 	'use strict';
-
 	var cjReg = /[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uff9f\u4e00-\u9faf\u3400-\u4dbf]/i;
 
 	function isCJ(str) {
@@ -96,7 +95,7 @@ jQuery.extend({
 			words = [ words ];
 
 		words = $.grep(words, function(word, i) {
-			return word != '' && word != "*";
+			return word != '' && word != "*" && word != '?';
 		});
 
 		if (words.length == 0)
@@ -136,11 +135,34 @@ jQuery.extend({
 
 								}
 							} else {
-								pattern = pattern
-										+ word.replace(filterRegex,
-												"[^\\r\\na-z]{0,}").replace(
-												/[*]/g, "[\\S]{0,}").replace(
-												/[?]/g, "[\\S]{0,}");
+								pattern += word.replace(filterRegex,
+										"[^\\r\\na-z]{0,}")
+							}
+
+							var endChar = word.charAt(word.length - 1)
+									.toString();
+							var preChar = word.charAt(word.length - 2)
+									.toString();
+							var preiscj = isCJ(preChar);
+
+							if (endChar == '*' || endChar == '?') {
+								pattern = pattern.substring(0,
+										pattern.length - 2).replace(/[*]/g,
+										"[\\S]{0,}").replace(/[?]/g,
+										"[\\S]{0,}");
+								if (null == preiscj) {
+									pattern += '[^\\·\\…\\—\\~\\`\\!\\@\\#\\$\\%\\^\\&\\(\\)\\-\\_\\+\\=\\|\\\\\[\\]\\{\\}\\;\\:\\"\\\'\\,\\<\\.\\>\\/\\s\\u3000-\\u303f\\u3040-\\u309f\\u30a0-\\u30ff\\uff00-\\uff9f\\u4e00-\\u9faf\\u3400-\\u4dbf]';
+								} else {
+									pattern += '[\\u3000-\\u303f\\u3040-\\u309f\\u30a0-\\u30ff\\uff00-\\uff9f\\u4e00-\\u9faf\\u3400-\\u4dbf]';
+								}
+
+								if (endChar == '*')
+									pattern += '{0,}';
+								if (endChar == '?')
+									pattern += '{0,1}';
+							} else {
+								pattern = pattern.replace(/[*]/g, "[\\S]{0,}")
+										.replace(/[?]/g, "[\\S]{0,}");
 							}
 
 							pattern += ')';
