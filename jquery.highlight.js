@@ -118,16 +118,22 @@ jQuery.extend({
 
 							pattern += '(';
 
+							var endChar = word.charAt(word.length - 1)
+									.toString();
+
+							var tmp = endChar == '*' || endChar == '?' ? word
+									.substring(0, word.length - 1) : word;
+
 							if (null != iscj) {
 								var replace = '[\\·\\…\\—\\~\\`\\!\\@\\#\\$\\%\\^\\&\\(\\)\\-\\_\\+\\=\\|\\\\\[\\]\\{\\}\\;\\:\\"\\\'\\,\\<\\.\\>\\/\\s]{0,}';
 
-								for (var j = 0; j < word.length; j++) {
-									var c = word[j].toString();
+								for (var j = 0; j < tmp.length; j++) {
+									var c = tmp[j].toString();
 									var m = filterRegex.exec(c);
 
 									if (null != m) {
 										pattern += replace;
-									} else if (j < word.length - 1) {
+									} else if (j < tmp.length - 1) {
 										pattern = pattern + c + replace;
 									} else {
 										pattern += c;
@@ -135,21 +141,17 @@ jQuery.extend({
 
 								}
 							} else {
-								pattern += word.replace(filterRegex,
+								pattern += tmp.replace(filterRegex,
 										"[^\\r\\na-z]{0,}")
 							}
 
-							var endChar = word.charAt(word.length - 1)
-									.toString();
 							var preChar = word.charAt(word.length - 2)
 									.toString();
 							var preiscj = isCJ(preChar);
 
 							if (endChar == '*' || endChar == '?') {
-								pattern = pattern.substring(0,
-										pattern.length - 2).replace(/[*]/g,
-										"[\\S]{0,}").replace(/[?]/g,
-										"[\\S]{0,}");
+								pattern = pattern.replace(/[*]/g, "[\\S]{0,}")
+										.replace(/[?]/g, "[\\S]{0,}");
 								if (null == preiscj) {
 									pattern += '[^\\·\\…\\—\\~\\`\\!\\@\\#\\$\\%\\^\\&\\(\\)\\-\\_\\+\\=\\|\\\\\[\\]\\{\\}\\;\\:\\"\\\'\\,\\<\\.\\>\\/\\s\\u3000-\\u303f\\u3040-\\u309f\\u30a0-\\u30ff\\uff00-\\uff9f\\u4e00-\\u9faf\\u3400-\\u4dbf]';
 								} else {
