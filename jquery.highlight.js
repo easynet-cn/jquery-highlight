@@ -82,30 +82,11 @@ jQuery.extend({
 		return tmp
 	}
 
-	$.fn.highlight = function(words, options) {
-		var settings = $.extend({
-			classes : [ 'highlight-1', 'highlight-2', 'highlight-3',
-					'highlight-4', 'highlight-5', 'highlight-6', 'highlight-7',
-					'highlight-8' ],
-			element : 'span',
-			caseSensitive : false
-		}, options);
-
-		if (words.constructor === String)
-			words = [ words ];
-
-		words = $.grep(words, function(word, i) {
-			return word != '' && word != "*" && word != '?';
-		});
-
-		if (words.length == 0)
-			return this;
-
-		var classes = new Array();
-		var flag = settings.caseSensitive ? '' : 'i';
+	function toPatterns(words, classes, flag) {
+		var cls = new Array();
 		var filterRegex = /[\·\…\—\~\`\!\@\#\$\%\^\&\(\)\-\_\+\=\|\\\[\]\{\}\;\:\"\'\,\<\.\>\/\–\s]/g;
 
-		words = $
+		return $
 				.map(
 						words,
 						function(word, i) {
@@ -172,15 +153,43 @@ jQuery.extend({
 							if (null == iscj)
 								pattern = '\\b' + pattern + '\\b';
 
-							classes[i] = i < settings.classes.length ? settings.classes[i]
-									: settings.classes[parseInt(Math.random()
-											* settings.classes.length)];
+							cls[i] = i < classes.length ? classes[i]
+									: classes[parseInt(Math.random()
+											* classes.length)];
 
 							return new RegExp(pattern, flag);
 						});
+	}
+
+	$.fn.highlight = function(words, options) {
+		var settings = $.extend({
+			classes : [ 'highlight-1', 'highlight-2', 'highlight-3',
+					'highlight-4', 'highlight-5', 'highlight-6', 'highlight-7',
+					'highlight-8' ],
+			element : 'span',
+			caseSensitive : false,
+			toPatterns : toPatterns
+		}, options);
+
+		if (words.constructor === String)
+			words = [ words ];
+
+		words = $.grep(words, function(word, i) {
+			return word != '' && word != "*" && word != '?';
+		});
+
+		if (words.length == 0)
+			return this;
+
+		var classes = settings.classes;
+		var element = settings.element;
+		var flag = settings.caseSensitive ? '' : 'i';
+		var func = settings.toPatterns;
 
 		return this.each(function(i, item) {
-			jQuery.highlight(this, words, classes, settings.element);
+			jQuery
+					.highlight(this, func(words, classes, flag), classes,
+							element);
 		});
 	}
 }(jQuery);
