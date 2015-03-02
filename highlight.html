@@ -102,6 +102,8 @@ input {
 	<h4 id="txt13-words" class="words">US3496250A,butadiene*</h4>
 	<div id="txt13" class="highlight">BLENDS OF EPOXY RESINS AND
 		ACRYLONITRILE BUTADIENE-STYRENE GRAFT COPOLYMERS</div>
+	<h4 id="txt14-words" class="words">改进,方法,用于,纵向,挤压,处理网,采用,二辊,驱动</h4>
+	<div id="txt14" class="highlight">改进机以及方法，用于纵向挤压处理网采用二辊驱动辊隙。 特殊排列初始部分一个或一对固定减速构件被定位在出料侧驱动辊隙区域中小发散辊面提供筑坝力。 起始部分减速件，优选弯曲，弹性的夹元件，形状相对流动片上。 通过施工以及位置接近中心线辊，它建立非常压制柱上游延伸到前处理点连续位于驱动辊隙，之间移动表面辊。 在此区域，纵向压力动作时发生 Web 在连续以及统一的方式，优选补偿动作响应于变化力施加束紧列片上。 这补偿动作被提供通过弹性的变形一个阻挡件在方向正常平面网，弹性的调节运动一个阻挡件在方向远离辊隙辊轴线，以及在一些的情况下，通过弹性的响应密实的材料本身。 减速件可以完成其弹性的运动摆动约辊轴线以及通过纵向移动 Web 流道。 减速构件，或铅成员对，优选，在启动位置，具有首部件位于上游运行位置</div>
 	<h4 id="ipc-words">d160k*</h4>
 	<div id="ipc-txt">d160k/00</div>
 	<script type="text/javascript" src="jquery-1.11.1.min.js"></script>
@@ -204,11 +206,11 @@ input {
 								if (null == iscj)
 									pattern = '\\b' + pattern + '\\b';
 
-								cls[i] = i < classes.length ? classes[i]
-										: classes[parseInt(Math.random()
-												* classes.length)];
+								var cls = i < classes.length ? classes[i]
+                                   : classes[parseInt(Math.random()
+                                           * (classes.length - 1))];
 
-								return new RegExp(pattern, flag);
+								return { 'pattern': new RegExp(pattern, flag), 'class': cls };
 							});
 		}
 		$('#ipc-txt').highlight($('#ipc-words').text().split(','), {
