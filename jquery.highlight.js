@@ -5,6 +5,10 @@
 
 jQuery.extend({
     highlight: function (node, patterns, nodeName) {
+        var classes = $.map(patterns, function (index, element) {
+            return element.class;
+        });
+
         if (node.nodeType === 3) {
             for (var i = 0; i < patterns.length; i++) {
                 var match = node.data.match(patterns[i].pattern);
@@ -151,11 +155,9 @@ jQuery.extend({
 						    if (null == iscj)
 						        pattern = '\\b' + pattern + '\\b';
 
-						    var cls = i < classes.length ? classes[i]
-									: classes[parseInt(Math.random()
-											* (classes.length - 1))];
+						    var cls = i % classes.length;
 
-						    return { 'pattern': new RegExp(pattern, flag), 'class': cls };
+						    return { 'pattern': new RegExp(pattern, flag), 'class': classes[cls] };
 						});
     }
 
