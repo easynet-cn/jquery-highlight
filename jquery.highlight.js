@@ -111,6 +111,7 @@ jQuery.extend({
 						        var replace = '[\\·\\…\\—\\~\\`\\!\\@\\#\\$\\%\\^\\&\\(\\)\\-\\_\\+\\=\\|\\\\\[\\]\\{\\}\\;\\:\\"\\\'\\,\\<\\.\\>\\/\\–\\s]{0,}';
 
 						        for (var j = 0; j < tmp.length; j++) {
+						            filterRegex.lastIndex = 0;
 						            var c = tmp[j].toString();
 						            var m = filterRegex.exec(c);
 
