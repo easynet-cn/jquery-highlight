@@ -1,0 +1,120 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8" />
+<title>jquery highlight test</title>
+<style type="text/css">
+.highlight-1 {
+	background-color: #4785D2;
+	color: white;
+}
+
+.highlight-2 {
+	background-color: #BA5DC7;
+	color: white;
+}
+
+.highlight-3 {
+	background-color: #74AC4B;
+	color: white;
+}
+
+.highlight-4 {
+	background-color: #9E2D01;
+}
+
+.highlight-5 {
+	background-color: #88E1E9;
+}
+
+.highlight-6 {
+	background-color: #F1DD2E;
+}
+
+.highlight-7 {
+	background-color: #ED38A9;
+}
+
+.highlight-8 {
+	background-color: #CDB189;
+}
+
+input {
+	width: 80%;
+}
+</style>
+</head>
+<body>
+	<div>
+		Words:<input id="txt-words" type="text"></input>
+		<button id="btn-highlight">highlight</button>
+	</div>
+	<div>
+		Text:<input id="txt" type="text"></input>
+	</div>
+	Highlight:
+	<div id="txt-highlight" type="text"></div>
+	<h4 id="txt1-words" class="words">DISCHARGE,MACHINE, GAME, ROUTER,
+		BOARD,METHOD,PROCESSING,SUPPLY</h4>
+	<div id="txt1" class="highlight">METHOD FOR GAME BOARD SUPPLY AND
+		DISCHARGE TO/FROM ROUTER PROCESSING MACHINE FOR MANUFACTURING GAME
+		MACHINE</div>
+	<h4 id="txt2-words" class="words">充电,电池,管理</h4>
+	<div id="txt2" class="highlight">电的车辆供能系统，电的车辆电池，电的车辆电池充电装置，电池供给装置、以及电的车辆电池管理系统</div>
+	<h4 id="txt3-words" class="words">system*</h4>
+	<div id="txt3" class="highlight">system systems</div>
+	<h4 id="txt4-words" class="words">grow*,absorb*</h4>
+	<div id="txt4" class="highlight">growth absorbent absorbing</div>
+	<h4 id="txt5-words" class="words">"3 d"</h4>
+	<div id="txt5" class="highlight">3-D cursor positioning device</div>
+	<h4 id="txt6-words" class="words">syst?m</h4>
+	<div id="txt6" class="highlight">SYSTEM AND METHOD FOR GENERATING
+		SIGNAL WAVEFORMS IN A CDMA CELLULAR TELEPHONE SYSTEM</div>
+	<h4 id="txt7-words" class="words">"3—D"</h4>
+	<div id="txt7" class="highlight">3-D cursor positioning device</div>
+	<h4 id="txt8-words" class="words">晶体,单晶</h4>
+	<div id="txt8" class="highlight">单晶体</div>
+	<h4 id="txt9-words" class="words">crystal,liquid crystal</h4>
+	<div id="txt9" class="highlight">liquid crystal</div>
+	<h4 id="txt10-words" class="words">背光,模组,背板,结构,后背板,组的后</h4>
+	<div id="txt10" class="highlight">本实用新型适用于背光模组领域，提供了一种背光模组的后背板结构，所述后背板由若干安装条互相拼接而成，各安装条之间为镂空结构。与现有的一体冲压成型的后背板结构相比，本实用新型采用若干安装条拼接而成后背板，解决了现有的因采用冲压工艺制造后背板而产生硬力导致扭曲变形的问题；另外，由于各安装条之间为镂空结构，在保证后背板强度的同时，既减轻了后背板的重量，又降低了后背板的成本，还提高了背光模组的散热效率。</div>
+	<h4 id="txt11-words" class="words">back plate,plate structure,rear
+		back,integrally formed,existing rear</h4>
+	<div id="txt11" class="highlight">The utility model is suitable
+		for the field of back light modules, and provides a rear back plate
+		structure of a back light module, wherein a rear back plate is formed
+		through mutually splicing a plurality of mounting strips, and hollow
+		out structures are arranged between various mounting strips. Compared
+		with an existing rear back plate structure which is integrally formed,
+		the rear back plate structure of the back light module uses a
+		plurality of mounting strips to splice and form a rear back plate,
+		thereby solving the problems that an existing rear back plate which is
+		made through stamping process generates hard force to cause distortion
+		and deformation. Furthermore, because the hollow out structures are
+		arranged between various mounting strips, the strength of the rear
+		back plate is guaranteed, the weight of the rear back plate is reduced
+		at the same time, the cost of the rear back plate is also reduced, and
+		the heat emission efficiency of the back light module is further
+		increased.</div>
+	<h4 id="txt12-words" class="words">CN103590164A,dt*</h4>
+	<div id="txt12" class="highlight">本发明公开了一种色织格子面料的加工方法，该生产方法包括如下步骤：（1）首先进行原料选择，选用4根50D/72F半光DTY色丝加捻形成的纤维作为经丝，选用4根50D/72F半光DTY色丝加捻形成的纤维作为纬丝；（2）对选好的经丝和纬丝进行检验；（3）将检验合格的经丝和纬丝按整经工艺要求通过整经机制成经轴；（4）浆纱；（5）穿综；（6）织布；（7）通过验布机进行验布，有瑕疵的通过人工修织瑕疵。本发明生产出的面料外形美观且色牢度强，吸湿性较低，其耐冲击强度比锦纶高4倍，比粘胶纤维高20倍；弹性好，耐皱性强，尺寸稳定性强；色彩牢固度强，不易褪色，当伸长5%～6%时可以完全恢复。</div>
+	<h4 id="txt13-words" class="words">US3496250A,butadiene*</h4>
+	<div id="txt13" class="highlight">BLENDS OF EPOXY RESINS AND
+		ACRYLONITRILE BUTADIENE-STYRENE GRAFT COPOLYMERS</div>
+	<h4 id="txt14-words" class="words">改进,方法,用于,纵向,挤压,处理网,采用,二辊,驱动</h4>
+	<div id="txt14" class="highlight">改进机以及方法，用于纵向挤压处理网采用二辊驱动辊隙。
+		特殊排列初始部分一个或一对固定减速构件被定位在出料侧驱动辊隙区域中小发散辊面提供筑坝力。
+		起始部分减速件，优选弯曲，弹性的夹元件，形状相对流动片上。
+		通过施工以及位置接近中心线辊，它建立非常压制柱上游延伸到前处理点连续位于驱动辊隙，之间移动表面辊。 在此区域，纵向压力动作时发生 Web
+		在连续以及统一的方式，优选补偿动作响应于变化力施加束紧列片上。
+		这补偿动作被提供通过弹性的变形一个阻挡件在方向正常平面网，弹性的调节运动一个阻挡件在方向远离辊隙辊轴线，以及在一些的情况下，通过弹性的响应密实的材料本身。
+		减速件可以完成其弹性的运动摆动约辊轴线以及通过纵向移动 Web 流道。 减速构件，或铅成员对，优选，在启动位置，具有首部件位于上游运行位置</div>
+	<h4 id="txt15-words" class="words">（昆明）,（金利）,（梅州）,（东莞）,（深圳）</h4>
+	<div id="txt15" class="highlight">一种家具阻尼铰链，包括固定座、活动座、连接固定座和活动座的外摇臂、安装在固定座内的阻尼器以及与固定座和活动座连接的内摇臂，其特征在于所述内摇臂位于固定座上的一侧设置有限位槽，所述限位槽上活动枢接有连接件，所述连接件的另一端与阻尼器活塞杆的端部活动枢接在一起，所述连接件可转动枢接在固定座上。本实用新型由于采用在内摇臂的一侧活动枢接一连接件，并通过该连接件与阻尼器的活塞杆活动枢接，不但使其结构更简单合理，而且连接更直接可靠。本实用新型具有结构简单、制作简易、连接可靠和使用寿命长等优点，可适用于各种不同使用功能的家具，可满足不同用户的喜好要求。
+	</div>
+	<h4 id="ipc-words">d160k*</h4>
+	<div id="ipc-txt">d160k/00</div>
+	<script data-main="test" src="require.js"></script>
+</body>
+</html>
