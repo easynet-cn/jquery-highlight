@@ -115,7 +115,7 @@ input {
 	</div>
 	<h4 id="ipc-words">d160k*</h4>
 	<div id="ipc-txt">d160k/00</div>
-	<script type="text/javascript" src="jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="jquery-1.11.2.min.js"></script>
 	<script type="text/javascript" src="jquery.highlight.js"></script>
 	<script type="text/javascript">
 		$('.highlight').each(function(i, item) {
@@ -173,8 +173,8 @@ input {
 									var replace = '[\\·\\…\\—\\~\\`\\!\\@\\#\\$\\%\\^\\&\\(\\)\\-\\_\\+\\=\\|\\\\\[\\]\\{\\}\\;\\:\\"\\\'\\,\\<\\.\\>\\/\\–\\s]{0,}';
 
 									for (var j = 0; j < tmp.length; j++) {
-									    filterRegex.lastIndex = 0;
-									    var c = tmp[j].toString();
+										filterRegex.lastIndex = 0;
+										var c = tmp[j].toString();
 										var m = filterRegex.exec(c);
 
 										if (null != m) {

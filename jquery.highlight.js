@@ -3,193 +3,218 @@
  *
  */
 
-jQuery.extend({
-    highlight: function (node, patterns, nodeName) {
-        var classes = $.map(patterns, function (index, element) {
-            return element.class;
-        });
+(function(factory) {
+	if (typeof define === "function" && define.amd) {
 
-        if (node.nodeType === 3) {
-            for (var i = 0; i < patterns.length; i++) {
-                var match = node.data.match(patterns[i].pattern);
+		// AMD. Register as an anonymous module.
+		define([ "jquery" ], factory);
+	} else {
 
-                if (match) {
-                    var start = match.index;
-                    var length = match[0].length;
-                    var end = start + length;
-                    var highlight = document.createElement(nodeName || 'span');
+		// Browser globals
+		factory(jQuery);
+	}
+}
+		(function($) {
+			'use strict';
+			$.extend({
+				highlight : function(node, patterns, nodeName) {
+					var classes = $.map(patterns, function(index, element) {
+						return element.class;
+					});
 
-                    for (var j = i + 1; j < patterns.length; j++) {
-                        var m = node.data.match(patterns[j].pattern);
+					if (node.nodeType === 3) {
+						for (var i = 0; i < patterns.length; i++) {
+							var match = node.data.match(patterns[i].pattern);
 
-                        if (m) {
-                            var s = m.index;
-                            var l = m[0].length;
-                            var e = s + l;
+							if (match) {
+								var start = match.index;
+								var length = match[0].length;
+								var end = start + length;
+								var highlight = document.createElement(nodeName
+										|| 'span');
 
-                            if ((s < end && s >= start)
-									|| (e > start && e <= end)) {
-                                start = Math.min(start, s);
-                                end = Math.max(end, e);
-                                length = end - start;
-                            }
-                        }
-                    }
+								for (var j = i + 1; j < patterns.length; j++) {
+									var m = node.data
+											.match(patterns[j].pattern);
 
-                    highlight.className = patterns[i].class;
+									if (m) {
+										var s = m.index;
+										var l = m[0].length;
+										var e = s + l;
 
-                    var wordNode = node.splitText(start);
+										if ((s < end && s >= start)
+												|| (e > start && e <= end)) {
+											start = Math.min(start, s);
+											end = Math.max(end, e);
+											length = end - start;
+										}
+									}
+								}
 
-                    wordNode.splitText(length);
+								highlight.className = patterns[i].class;
 
-                    var wordClone = wordNode.cloneNode(true);
+								var wordNode = node.splitText(start);
 
-                    highlight.appendChild(wordClone);
-                    wordNode.parentNode.replaceChild(highlight, wordNode);
-                }
-            }
+								wordNode.splitText(length);
 
-            return 1; // skip added node in parent
-        } else if ((node.nodeType === 1 && node.childNodes)
-				&& // only element nodes that have children
-				!/(script|style)/i.test(node.tagName)
-				&& // ignore script and style nodes
-				!(node.tagName === nodeName.toUpperCase() && $.inArray(
-						node.className, classes) > -1)) { // skip if already
-            // highlighted
-            for (var j = 0; j < node.childNodes.length; j++) {
-                j += $.highlight(node.childNodes[j], patterns, nodeName);
-            }
-        }
-        return 0;
-    }
-});
+								var wordClone = wordNode.cloneNode(true);
 
-+function ($) {
-    'use strict';
-    var cjReg = /[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uff9f\u4e00-\u9faf\u3400-\u4dbf]/i;
+								highlight.appendChild(wordClone);
+								wordNode.parentNode.replaceChild(highlight,
+										wordNode);
+							}
+						}
 
-    function isCJ(str) {
-        return cjReg.exec(str);
-    }
+						return 1; // skip added node in parent
+					} else if ((node.nodeType === 1 && node.childNodes)
+							&& // only element nodes that have children
+							!/(script|style)/i.test(node.tagName)
+							&& // ignore script and style nodes
+							!(node.tagName === nodeName.toUpperCase() && $
+									.inArray(node.className, classes) > -1)) { // skip
+						// if
+						// already
+						// highlighted
+						for (var j = 0; j < node.childNodes.length; j++) {
+							j += $.highlight(node.childNodes[j], patterns,
+									nodeName);
+						}
+					}
+					return 0;
+				}
+			});
+			var cjReg = /[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uff9f\u4e00-\u9faf\u3400-\u4dbf]/i;
 
-    function toCDB(str) {
-        var tmp = "";
-        for (var i = 0; i < str.length; i++) {
-            if (str.charCodeAt(i) > 65248 && str.charCodeAt(i) < 65375) {
-                tmp += String.fromCharCode(str.charCodeAt(i) - 65248);
-            } else {
-                tmp += String.fromCharCode(str.charCodeAt(i));
-            }
-        }
-        return tmp
-    }
+			function isCJ(str) {
+				return cjReg.exec(str);
+			}
 
-    function toPatterns(words, classes, flag) {
-        var filterRegex = /[\·\…\—\~\`\!\@\#\$\%\^\&\(\)\-\_\+\=\|\\\[\]\{\}\;\:\"\'\,\<\.\>\/\–\s]/g;
+			function toCDB(str) {
+				var tmp = "";
+				for (var i = 0; i < str.length; i++) {
+					if (str.charCodeAt(i) > 65248 && str.charCodeAt(i) < 65375) {
+						tmp += String.fromCharCode(str.charCodeAt(i) - 65248);
+					} else {
+						tmp += String.fromCharCode(str.charCodeAt(i));
+					}
+				}
+				return tmp
+			}
 
-        return $
-				.map(
-						words,
-						function (word, i) {
-						    var pattern = '';
-						    word = toCDB(word);
-						    var iscj = isCJ(word);
+			function toPatterns(words, classes, flag) {
+				var filterRegex = /[\·\…\—\~\`\!\@\#\$\%\^\&\(\)\-\_\+\=\|\\\[\]\{\}\;\:\"\'\,\<\.\>\/\–\s]/g;
 
-						    if (word[0] == '"' && word[word.length - 1] == '"')
-						        word = word.substring(1, word.length - 1);
+				return $
+						.map(
+								words,
+								function(word, i) {
+									var pattern = '';
+									word = toCDB(word);
+									var iscj = isCJ(word);
 
-						    pattern += '(';
+									if (word[0] == '"'
+											&& word[word.length - 1] == '"')
+										word = word.substring(1,
+												word.length - 1);
 
-						    var endChar = word.charAt(word.length - 1)
-									.toString();
+									pattern += '(';
 
-						    var tmp = endChar == '*' || endChar == '?' ? word
-									.substring(0, word.length - 1) : word;
+									var endChar = word.charAt(word.length - 1)
+											.toString();
 
-						    if (null != iscj) {
-						        var replace = '[\\·\\…\\—\\~\\`\\!\\@\\#\\$\\%\\^\\&\\(\\)\\-\\_\\+\\=\\|\\\\\[\\]\\{\\}\\;\\:\\"\\\'\\,\\<\\.\\>\\/\\–\\s]{0,}';
+									var tmp = endChar == '*' || endChar == '?' ? word
+											.substring(0, word.length - 1)
+											: word;
 
-						        for (var j = 0; j < tmp.length; j++) {
-						            filterRegex.lastIndex = 0;
-						            var c = tmp[j].toString();
-						            var m = filterRegex.exec(c);
+									if (null != iscj) {
+										var replace = '[\\·\\…\\—\\~\\`\\!\\@\\#\\$\\%\\^\\&\\(\\)\\-\\_\\+\\=\\|\\\\\[\\]\\{\\}\\;\\:\\"\\\'\\,\\<\\.\\>\\/\\–\\s]{0,}';
 
-						            if (null != m) {
-						                pattern += replace;
-						            } else if (j < tmp.length - 1) {
-						                pattern = pattern + c + replace;
-						            } else {
-						                pattern += c;
-						            }
+										for (var j = 0; j < tmp.length; j++) {
+											filterRegex.lastIndex = 0;
+											var c = tmp[j].toString();
+											var m = filterRegex.exec(c);
 
-						        }
-						    } else {
-						        pattern += tmp.replace(filterRegex,
-										"[^\\r\\na-z]{0,}")
-						    }
+											if (null != m) {
+												pattern += replace;
+											} else if (j < tmp.length - 1) {
+												pattern = pattern + c + replace;
+											} else {
+												pattern += c;
+											}
 
-						    var preChar = word.charAt(word.length - 2)
-									.toString();
-						    var preiscj = isCJ(preChar);
+										}
+									} else {
+										pattern += tmp.replace(filterRegex,
+												"[^\\r\\na-z]{0,}")
+									}
 
-						    if (endChar == '*' || endChar == '?') {
-						        pattern = pattern.replace(/[*]/g, "[\\S]{0,}")
-										.replace(/[?]/g, "[\\S]{0,}");
-						        if (null == preiscj) {
-						            pattern += '[^\\·\\…\\—\\~\\`\\!\\@\\#\\$\\%\\^\\&\\(\\)\\-\\_\\+\\=\\|\\\\\[\\]\\{\\}\\;\\:\\"\\\'\\,\\<\\.\\>\\/\\–\\s\\u3000-\\u303f\\u3040-\\u309f\\u30a0-\\u30ff\\uff00-\\uff9f\\u4e00-\\u9faf\\u3400-\\u4dbf]';
-						        } else {
-						            pattern += '[\\u3000-\\u303f\\u3040-\\u309f\\u30a0-\\u30ff\\uff00-\\uff9f\\u4e00-\\u9faf\\u3400-\\u4dbf]';
-						        }
+									var preChar = word.charAt(word.length - 2)
+											.toString();
+									var preiscj = isCJ(preChar);
 
-						        if (endChar == '*')
-						            pattern += '{0,}';
-						        if (endChar == '?')
-						            pattern += '{0,1}';
-						    } else {
-						        pattern = pattern.replace(/[*]/g, "[\\S]{0,}")
-										.replace(/[?]/g, "[\\S]{0,}");
-						    }
+									if (endChar == '*' || endChar == '?') {
+										pattern = pattern.replace(/[*]/g,
+												"[\\S]{0,}").replace(/[?]/g,
+												"[\\S]{0,}");
+										if (null == preiscj) {
+											pattern += '[^\\·\\…\\—\\~\\`\\!\\@\\#\\$\\%\\^\\&\\(\\)\\-\\_\\+\\=\\|\\\\\[\\]\\{\\}\\;\\:\\"\\\'\\,\\<\\.\\>\\/\\–\\s\\u3000-\\u303f\\u3040-\\u309f\\u30a0-\\u30ff\\uff00-\\uff9f\\u4e00-\\u9faf\\u3400-\\u4dbf]';
+										} else {
+											pattern += '[\\u3000-\\u303f\\u3040-\\u309f\\u30a0-\\u30ff\\uff00-\\uff9f\\u4e00-\\u9faf\\u3400-\\u4dbf]';
+										}
 
-						    pattern += ')';
+										if (endChar == '*')
+											pattern += '{0,}';
+										if (endChar == '?')
+											pattern += '{0,1}';
+									} else {
+										pattern = pattern.replace(/[*]/g,
+												"[\\S]{0,}").replace(/[?]/g,
+												"[\\S]{0,}");
+									}
 
-						    if (null == iscj)
-						        pattern = '\\b' + pattern + '\\b';
+									pattern += ')';
 
-						    var cls = i % classes.length;
+									if (null == iscj)
+										pattern = '\\b' + pattern + '\\b';
 
-						    return { 'pattern': new RegExp(pattern, flag), 'class': classes[cls] };
+									var cls = i % classes.length;
+
+									return {
+										'pattern' : new RegExp(pattern, flag),
+										'class' : classes[cls]
+									};
+								});
+			}
+
+			$.fn.highlight = function(words, options) {
+				var settings = $.extend({
+					classes : [ 'highlight-1', 'highlight-2', 'highlight-3',
+							'highlight-4', 'highlight-5', 'highlight-6',
+							'highlight-7', 'highlight-8' ],
+					element : 'span',
+					caseSensitive : false,
+					toPatterns : toPatterns
+				}, options);
+
+				if (words.constructor === String)
+					words = [ words ];
+
+				words = $.grep(words, function(word, i) {
+					return word != '' && word != "*" && word != '?';
+				});
+
+				if (words.length == 0)
+					return this;
+
+				var classes = settings.classes;
+				var element = settings.element;
+				var flag = settings.caseSensitive ? '' : 'i';
+				var func = settings.toPatterns;
+
+				return this
+						.each(function(i, item) {
+							jQuery.highlight(this, func(words, classes, flag),
+									element);
 						});
-    }
-
-    $.fn.highlight = function (words, options) {
-        var settings = $.extend({
-            classes: ['highlight-1', 'highlight-2', 'highlight-3',
-					'highlight-4', 'highlight-5', 'highlight-6', 'highlight-7',
-					'highlight-8'],
-            element: 'span',
-            caseSensitive: false,
-            toPatterns: toPatterns
-        }, options);
-
-        if (words.constructor === String)
-            words = [words];
-
-        words = $.grep(words, function (word, i) {
-            return word != '' && word != "*" && word != '?';
-        });
-
-        if (words.length == 0)
-            return this;
-
-        var classes = settings.classes;
-        var element = settings.element;
-        var flag = settings.caseSensitive ? '' : 'i';
-        var func = settings.toPatterns;
-
-        return this.each(function (i, item) {
-            jQuery
-					.highlight(this, func(words, classes, flag), element);
-        });
-    }
-}(jQuery);
+			}
+		}));
